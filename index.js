@@ -132,6 +132,8 @@ ${extraMessage}`
 
 let lastActivityAt = Date.now()
 
+const processedMessages = new Set()
+
 // 🚀 START
 async function start() {
 
@@ -216,6 +218,17 @@ async function start() {
   }, 2 * 60 * 1000) // a cada 2 minutos
 
   client.onAnyMessage(async (message) => {
+
+    if (processedMessages.has(message.id)) {
+        return
+    }
+
+    processedMessages.add(message.id)
+
+    // evita crescimento infinito
+    if (processedMessages.size > 1000) {
+        processedMessages.clear()
+    }
 
     if (!message.isGroupMsg) return
     if (message.type !== 'chat') return
