@@ -216,6 +216,16 @@ async function start() {
 
     log('✅ Bot conectado')
 
+    setInterval(() => {
+        const now = Date.now()
+        const diff = now - lastActivityAt
+
+        if (process.uptime() > 120 && diff > 5 * 60 * 1000) {
+            console.log('⚠️ BOT INATIVO - RESTARTANDO')
+            process.exit(1)
+        }
+    }, 60 * 1000)
+
     setInterval(async () => {
         try {
             if (!clientGlobal) {
@@ -416,7 +426,7 @@ async function start() {
                     )
                     return
                 }
-                if (!message.isGroupMsg) return
+                
                 group.goal = value
 
                 save(lists)
@@ -861,17 +871,6 @@ async function start() {
                 return
             }
         })
-
-        setInterval(() => {
-            const now = Date.now()
-            const diff = now - lastActivityAt
-
-            // 5 minutos sem atividade
-            if (diff > 5 * 60 * 1000) {
-                console.log('⚠️ BOT INATIVO - RESTARTANDO')
-                process.exit(1)
-            }
-        }, 60 * 1000)
     })
 }
 
