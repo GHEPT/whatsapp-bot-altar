@@ -180,6 +180,31 @@ async function start() {
 
   log('✅ Bot conectado')
 
+  setInterval(async () => {
+    try {
+        if (!clientGlobal) {
+            console.log('❌ CLIENT NULO - RESTARTANDO')
+            process.exit(1)
+        }
+
+        const state = await clientGlobal.getConnectionState()
+
+        console.log('💓 HEARTBEAT:', state)
+
+        const invalid = ['DISCONNECTED', 'CLOSE', 'UNPAIRED', 'UNPAIRED_IDLE']
+
+        if (invalid.includes(state)) {
+            console.log('❌ HEARTBEAT DETECTOU ESTADO RUIM - RESTARTANDO')
+            process.exit(1)
+        }
+
+    } catch (err) {
+        console.log('❌ ERRO NO HEARTBEAT - RESTARTANDO')
+        console.error(err)
+        process.exit(1)
+    }
+  }, 2 * 60 * 1000) // a cada 2 minutos
+
   client.onAnyMessage(async (message) => {
 
     if (!message.isGroupMsg) return
