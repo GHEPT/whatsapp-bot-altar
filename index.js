@@ -177,7 +177,10 @@ async function start() {
     console.log('FROM_ME:', message.fromMe)
     console.log('CHAT_ID:', message.chatId)
 
-    const normalizedAuthor = (message.author || '').split(':')[0]
+    const normalizedAuthor = (message.author || '')
+    .split(':')[0]
+    .replace('@lid', '')
+
     const isOwner = normalizedAuthor === '72422258655250'
 
     if (!lists[jid]) {
