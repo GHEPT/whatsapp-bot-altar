@@ -461,7 +461,7 @@ async function start() {
 
                 const percentualFormatado = percentual.toFixed(0)
 
-                const message = `💛 _Lembre-se: estamos juntos na reconstrução do altar._\n*_Faltam ${percentualFormatado}%* para alcançarmos esse propósito._`
+                const message = `💛 _Lembre-se: estamos juntos na reconstrução do altar._\n*Faltam ${percentualFormatado}%* para alcançarmos esse propósito.`
 
                 await sendMessage(
                     jid,
