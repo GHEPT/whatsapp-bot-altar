@@ -161,7 +161,7 @@ async function start() {
 
     const jid = message.chatId
 
-    const text = message.body?.trim()
+    const text = message.body?.trim().toLowerCase()
     if (!text) return
 
     const sender = extractNumber(message.author || message.from)
@@ -184,12 +184,12 @@ async function start() {
     }
 
     // 🔒 BLOQUEIO GLOBAL
-    if (!group.open && text !== '/altar') {
+    if (!group.open && !text.startsWith('/altar')) {
         return
     }
 
     // 🚀 INICIAR CAMPANHA
-    if (text === '/altar') {
+    if (text.startsWith('/altar')) {
         if (!isOwner) return
 
         group.open = true
@@ -200,11 +200,11 @@ async function start() {
 
         save(lists)
 
-        const message = await generateContributionMessage()
+        const aiMessage = await generateContributionMessage()
 
         await sendMessage(
         jid,
-        botMessage(buildMessage(group, message))
+        botMessage(buildMessage(group, aiMessage))
         )
 
         return
@@ -660,11 +660,11 @@ async function start() {
 
     save(lists)
 
-    const message = await generateContributionMessage()
+    const aiMessage = await generateContributionMessage()
 
     await sendMessage(
         jid,
-        botMessage(buildMessage(group, message))
+        botMessage(buildMessage(group, aiMessage))
     )
 
     return
@@ -716,11 +716,11 @@ async function start() {
 
     save(lists)
 
-    const message = await generateContributionMessage()
+    const aiMessage = await generateContributionMessage()
 
     await sendMessage(
         jid,
-        botMessage(buildMessage(group, message))
+        botMessage(buildMessage(group, aiMessage))
     )
 
     return
