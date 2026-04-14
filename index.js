@@ -177,7 +177,7 @@ async function start() {
     console.log('FROM_ME:', message.fromMe)
     console.log('CHAT_ID:', message.chatId)
 
-    const isOwner = message.fromMe
+    const isOwner = message.author === '72422258655250@lid'
 
     if (!lists[jid]) {
         lists[jid] = {
