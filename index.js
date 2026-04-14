@@ -115,7 +115,8 @@ async function start() {
     headless: true,
     logQR: true,
     puppeteerOptions: {
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+        args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        userDataDir: './tokens/altar-bot'
     }
   })
 
