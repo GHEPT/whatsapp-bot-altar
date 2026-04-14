@@ -138,7 +138,7 @@ function buildMessage(group, extraMessage = '') {
      *META | R$ ${formatCurrency(group.goal)}* 
 *========================*
 ${stepsText ? stepsText + '\n' : ''}
-_O altar é lugar de entrega e resposta de Deus sobre nós..._
+_No altar, entregamos. Na reforma, somos restaurados._
 
 Contribuições recebidas:
 *\`R$ ${formatCurrency(total)}\`* 💴
