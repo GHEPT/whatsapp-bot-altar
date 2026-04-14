@@ -133,10 +133,13 @@ async function start() {
     headless: true,
     logQR: true,
     puppeteerOptions: {
+        executablePath: '/usr/bin/chromium-browser',
         args: [
             '--no-sandbox',
             '--disable-setuid-sandbox',
-            '--disable-dev-shm-usage'
+            '--disable-dev-shm-usage',
+            '--no-zygote',
+            '--disable-gpu'
         ]
     }
   })
