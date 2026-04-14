@@ -169,14 +169,24 @@ async function start() {
     }
   })
 
-  client.onStreamChange((state) => {
-  console.log('🌐 STREAM:', state)
+  let streamFailures = 0
 
-  if (state === 'DISCONNECTED') {
-    console.log('❌ STREAM DESCONECTADO - RESTARTANDO')
-    process.exit(1)
-  }
-})
+    client.onStreamChange((state) => {
+        console.log('🌐 STREAM:', state)
+
+        if (state === 'DISCONNECTED') {
+            streamFailures++
+
+            console.log(`⚠️ STREAM FAIL (${streamFailures})`)
+
+            if (streamFailures >= 3) {
+                console.log('❌ STREAM INSTÁVEL - RESTARTANDO')
+                process.exit(1)
+            }
+        } else {
+            streamFailures = 0
+        }
+    })
 
   log('✅ Bot conectado')
 
