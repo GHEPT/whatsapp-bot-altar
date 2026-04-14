@@ -151,6 +151,8 @@ let lastActivityAt = Date.now()
 
 const processedMessages = new Set()
 
+const repliedMessages = new Set()
+
 // 🚀 START
 async function start() {
 
@@ -320,6 +322,13 @@ async function start() {
         save(lists)
 
         const aiMessage = await generateContributionMessage()
+
+        if (repliedMessages.has(message.id)) return
+        repliedMessages.add(message.id)
+
+        if (repliedMessages.size > 1000) {
+            repliedMessages.clear()
+        }
 
         await sendMessage(
             jid,
