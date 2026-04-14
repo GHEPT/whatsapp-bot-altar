@@ -223,11 +223,7 @@ async function start() {
 
         save(lists)
 
-        console.log('⚡ ANTES DO AI')
-
-        const aiMessage = "TESTE ALTAR OK"
-
-        console.log('⚡ DEPOIS DO AI')
+        const aiMessage = await generateContributionMessage()
 
         await sendMessage(
             jid,
