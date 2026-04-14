@@ -190,7 +190,14 @@ async function start() {
 
     // 🚀 INICIAR CAMPANHA
     if (text.startsWith('/altar')) {
-        if (!isOwner) return
+        console.log('🔥 ENTROU NO /ALTAR')
+
+        if (!isOwner) {
+            console.log('❌ NÃO É OWNER')
+            return
+        }
+
+        console.log('✅ É OWNER')
 
         group.open = true
         group.contributions = []
@@ -200,12 +207,18 @@ async function start() {
 
         save(lists)
 
-        const aiMessage = await generateContributionMessage()
+        console.log('⚡ ANTES DO AI')
+
+        const aiMessage = "TESTE ALTAR OK"
+
+        console.log('⚡ DEPOIS DO AI')
 
         await sendMessage(
-        jid,
-        botMessage(buildMessage(group, aiMessage))
+            jid,
+            botMessage(buildMessage(group, aiMessage))
         )
+
+        console.log('🚀 MENSAGEM ENVIADA')
 
         return
     }
