@@ -2,6 +2,7 @@ require('dotenv').config()
 
 const fs = require('fs')
 const path = './tokens-altar/altar-bot-2'
+const puppeteer = require('puppeteer')
 
 try {
   if (!fs.existsSync(path)) {
@@ -125,6 +126,8 @@ ${extraMessage}`
 
 // 🚀 START
 async function start() {
+
+  const executablePath = puppeteer.executablePath()
   
   const client = await wppconnect.create({
     session: 'altar-bot-2',
@@ -133,6 +136,7 @@ async function start() {
     headless: true,
     logQR: true,
     puppeteerOptions: {
+        executablePath,
         args: [
             '--no-sandbox',
             '--disable-setuid-sandbox',
