@@ -125,6 +125,8 @@ ${list}
 ${extraMessage}`
 }
 
+let lastActivityAt = Date.now()
+
 // 🚀 START
 async function start() {
 
@@ -154,9 +156,11 @@ async function start() {
   log('✅ Bot conectado')
 
   client.onAnyMessage(async (message) => {
+
     if (!message.isGroupMsg) return
     if (message.type !== 'chat') return
 
+    lastActivityAt = Date.now()
     console.log('MSG RECEBIDA:', message.body)
 
     const jid = message.chatId
@@ -751,6 +755,17 @@ async function start() {
     return
     }
   })
+
+  setInterval(() => {
+    const now = Date.now()
+    const diff = now - lastActivityAt
+
+    // 5 minutos sem atividade
+    if (diff > 5 * 60 * 1000) {
+        console.log('⚠️ BOT INATIVO - RESTARTANDO')
+        process.exit(1)
+    }
+  }, 60 * 1000)
 }
 
 start()
