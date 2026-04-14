@@ -164,8 +164,12 @@ async function start() {
     const text = message.body?.trim().toLowerCase()
     if (!text) return
 
-    const sender = extractNumber(message.author || message.from)
-    const isOwner = sender === OWNER || message.fromMe
+    const rawSender = message.author || message.from || ''
+    const sender = rawSender.replace(/\D/g, '') // só números
+
+    const ownerNumber = OWNER.replace(/\D/g, '')
+
+    const isOwner = sender.endsWith(ownerNumber) || message.fromMe
 
     if (!lists[jid]) {
         lists[jid] = {
