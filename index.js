@@ -1,7 +1,21 @@
 require('dotenv').config()
 
+const fs = require('fs')
+const path = './tokens-altar/altar-bot-2'
+
+try {
+  if (!fs.existsSync(path)) {
+    fs.mkdirSync(path, { recursive: true })
+  }
+
+  fs.readdirSync(path)
+    .filter(f => f.startsWith('Singleton'))
+    .forEach(f => fs.unlinkSync(`${path}/${f}`))
+} catch (e) {
+  console.log('[ALTAR BOT] erro limpando sessão:', e.message)
+}
+
 const wppconnect = require('@wppconnect-team/wppconnect')
-const puppeteer = require('puppeteer')
 
 const { load, save } = require('./storage')
 const {
