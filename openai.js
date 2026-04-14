@@ -15,11 +15,23 @@ async function generateContributionMessage() {
         {
           role: 'user',
           content: `
-Gere uma mensagem curta (máximo 2 linhas), cristã, com linguagem pastoral, sobre altar, sacrifício, entrega e resposta de Deus.
+Gere uma frase curta, espiritual e impactante sobre "altar e reforma".
 
-A mensagem deve ser profunda, simples e alinhada à fé cristã evangélica.
+A frase deve:
+- ser curta (máximo 20 palavras)
+- ter linguagem cristã profética
+- conectar entrega (altar) com restauração (reforma)
+- soar natural, não robótica
+- não repetir sempre a mesma estrutura
+- Insira uma referência bíblica abreviada. Exemplo: Mt 7:7
 
-Não use emojis.
+Evite:
+- frases longas
+- explicações
+- emojis
+- repetir exatamente a mesma construção
+
+Retorne apenas a frase.
 `
         }
       ]
