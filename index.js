@@ -4,6 +4,23 @@ const fs = require('fs')
 const path = './tokens-altar/altar-bot-2'
 const puppeteer = require('puppeteer')
 process.env.PUPPETEER_EXECUTABLE_PATH = require('puppeteer').executablePath()
+const groupLocks = new Map()
+
+async function withGroupLock(jid, fn) {
+  const current = groupLocks.get(jid) || Promise.resolve()
+
+  let resolveNext
+  const next = new Promise(resolve => (resolveNext = resolve))
+
+  groupLocks.set(jid, current.then(() => next))
+
+  try {
+    await current
+    return await fn()
+  } finally {
+    resolveNext()
+  }
+}
 
 try {
   if (!fs.existsSync(path)) {
@@ -219,6 +236,13 @@ async function start() {
 
   client.onAnyMessage(async (message) => {
 
+    if (!message.isGroupMsg) return
+    if (message.type !== 'chat') return
+
+    const jid = message.chatId
+
+    await withGroupLock(jid, async () => {
+
     if (processedMessages.has(message.id)) {
         return
     }
@@ -230,13 +254,8 @@ async function start() {
         processedMessages.clear()
     }
 
-    if (!message.isGroupMsg) return
-    if (message.type !== 'chat') return
-
     lastActivityAt = Date.now()
     console.log('MSG RECEBIDA:', message.body)
-
-    const jid = message.chatId
 
     const text = message.body?.trim().toLowerCase()
     if (!text) return
@@ -383,7 +402,7 @@ async function start() {
         )
     return
     }
-
+if (!message.isGroupMsg) return
     group.goal = value
 
     save(lists)
@@ -839,6 +858,8 @@ async function start() {
         process.exit(1)
     }
   }, 60 * 1000)
+  })
 }
+
 
 start()
