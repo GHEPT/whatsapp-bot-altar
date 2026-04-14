@@ -1,6 +1,22 @@
 require('dotenv').config()
 
 const wppconnect = require('@wppconnect-team/wppconnect')
+const puppeteer = require('puppeteer-extra')
+const StealthPlugin = require('puppeteer-extra-plugin-stealth')
+
+puppeteer.use(StealthPlugin())
+
+const realPuppeteer = require('puppeteer')
+
+puppeteer.launch = ((original) => {
+  return (options) => {
+    return original({
+      executablePath: realPuppeteer.executablePath(),
+      ...options
+    })
+  }
+})(puppeteer.launch)
+
 const { load, save } = require('./storage')
 const {
   generateContributionMessage,
@@ -109,14 +125,19 @@ ${extraMessage}`
 
 // 🚀 START
 async function start() {
+  
   const client = await wppconnect.create({
     session: 'altar-bot',
     autoClose: 0,
     headless: true,
     logQR: true,
     puppeteerOptions: {
-        args: ['--no-sandbox', '--disable-setuid-sandbox'],
-        userDataDir: './tokens/altar-bot'
+        args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage',
+            '--disable-gpu'
+        ]
     }
   })
 
