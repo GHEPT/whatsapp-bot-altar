@@ -118,13 +118,8 @@ async function start() {
     headless: true,
     logQR: true,
     puppeteerOptions: {
-        executablePath: puppeteer.executablePath(),
-        args: [
-            '--no-sandbox',
-            '--disable-setuid-sandbox',
-            '--disable-dev-shm-usage',
-            '--disable-gpu'
-        ]
+        executablePath: '/root/.cache/puppeteer/chrome/linux-146.0.7680.153/chrome-linux64/chrome',
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
     }
   })
 
