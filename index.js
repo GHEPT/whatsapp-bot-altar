@@ -153,7 +153,7 @@ async function start() {
 
   log('✅ Bot conectado')
 
-  client.onAnyMessage((message) => {
+  client.onAnyMessage(async (message) => {
     if (!message.isGroupMsg) return
 
     const jid = message.chatId
