@@ -1,4 +1,5 @@
 require('dotenv').config()
+const config = require('./src/config')
 const { loadProcessed, saveProcessed } = require('./processedStore')
 
 const fs = require('fs')
@@ -160,8 +161,8 @@ async function start() {
     const executablePath = puppeteer.executablePath()
 
     const client = await wppconnect.create({
-        session: 'altar-bot-2',
-        folderNameToken: 'tokens-altar',
+        session: config.SESSION_NAME,
+        folderNameToken: config.TOKEN_FOLDER,
         autoClose: 0,
         headless: true,
         logQR: true,
@@ -282,7 +283,7 @@ async function start() {
             const rawSender = message.author || message.from || ''
             const sender = rawSender.replace(/\D/g, '')
 
-            const ownerNumber = OWNER.replace(/\D/g, '')
+            const ownerNumber = config.OWNER.replace(/\D/g, '')
 
             console.log('RAW SENDER:', rawSender)
             console.log('SENDER LIMPO:', sender)
