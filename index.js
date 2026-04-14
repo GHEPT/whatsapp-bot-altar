@@ -165,9 +165,13 @@ async function start() {
     if (!text) return
 
     const rawSender = message.author || message.from || ''
-    const sender = rawSender.replace(/\D/g, '') // só números
+    const sender = rawSender.replace(/\D/g, '')
 
     const ownerNumber = OWNER.replace(/\D/g, '')
+
+    console.log('RAW SENDER:', rawSender)
+    console.log('SENDER LIMPO:', sender)
+    console.log('OWNER:', ownerNumber)
 
     const isOwner = sender.endsWith(ownerNumber) || message.fromMe
 
