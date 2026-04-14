@@ -114,12 +114,16 @@ async function start() {
   
   const client = await wppconnect.create({
     session: 'altar-bot-2',
+    folderNameToken: 'tokens-altar',
     autoClose: 0,
     headless: true,
     logQR: true,
     puppeteerOptions: {
-        executablePath: '/root/.cache/puppeteer/chrome/linux-146.0.7680.153/chrome-linux64/chrome',
-        args: ['--no-sandbox', '--disable-setuid-sandbox']
+        args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage'
+        ]
     }
   })
 
