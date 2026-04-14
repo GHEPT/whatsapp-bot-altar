@@ -1,4 +1,5 @@
 require('dotenv').config()
+const { loadProcessed, saveProcessed } = require('./processedStore')
 
 const fs = require('fs')
 const path = './tokens-altar/altar-bot-2'
@@ -149,7 +150,7 @@ ${extraMessage}`
 
 let lastActivityAt = Date.now()
 
-const processedMessages = new Set()
+const processedMessages = loadProcessed()
 
 const repliedMessages = new Set()
 
@@ -265,6 +266,7 @@ async function start() {
             }
 
             processedMessages.add(message.id)
+            saveProcessed(processedMessages)
 
             // evita crescimento infinito
             if (processedMessages.size > 1000) {
