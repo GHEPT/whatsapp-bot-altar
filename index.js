@@ -47,12 +47,17 @@ function botMessage(text) {
 }
 
 async function sendMessage(to, text) {
-  if (!clientGlobal) return
+  if (!clientGlobal) {
+    console.log('❌ CLIENT NÃO DISPONÍVEL')
+    process.exit(1)
+  }
 
   try {
     await clientGlobal.sendText(to, text)
   } catch (error) {
-    log('Erro ao enviar mensagem', error)
+    console.log('❌ ERRO AO ENVIAR MENSAGEM - RESTARTANDO')
+    console.error(error)
+    process.exit(1)
   }
 }
 
@@ -152,6 +157,26 @@ async function start() {
   })
 
   clientGlobal = client
+
+  client.onStateChange((state) => {
+    console.log('📡 STATE CHANGE:', state)
+
+    const invalidStates = ['CONFLICT', 'UNPAIRED', 'UNPAIRED_IDLE']
+
+    if (invalidStates.includes(state)) {
+        console.log('❌ ESTADO INVÁLIDO - RESTARTANDO')
+        process.exit(1)
+    }
+  })
+
+  client.onStreamChange((state) => {
+  console.log('🌐 STREAM:', state)
+
+  if (state === 'DISCONNECTED') {
+    console.log('❌ STREAM DESCONECTADO - RESTARTANDO')
+    process.exit(1)
+  }
+})
 
   log('✅ Bot conectado')
 
