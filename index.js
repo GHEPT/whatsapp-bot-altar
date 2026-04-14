@@ -172,8 +172,12 @@ async function start() {
     console.log('RAW SENDER:', rawSender)
     console.log('SENDER LIMPO:', sender)
     console.log('OWNER:', ownerNumber)
+    console.log('FROM:', message.from)
+    console.log('AUTHOR:', message.author)
+    console.log('FROM_ME:', message.fromMe)
+    console.log('CHAT_ID:', message.chatId)
 
-    const isOwner = sender.endsWith(ownerNumber) || message.fromMe
+    const isOwner = message.fromMe
 
     if (!lists[jid]) {
         lists[jid] = {
