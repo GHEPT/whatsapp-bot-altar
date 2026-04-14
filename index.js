@@ -155,13 +155,11 @@ async function start() {
 
   client.onAnyMessage(async (message) => {
     if (!message.isGroupMsg) return
-
-    const jid = message.chatId
+    if (message.type !== 'chat') return
 
     console.log('MSG RECEBIDA:', message.body)
 
-    if (!message.isGroupMsg) return
-    if (message.type !== 'chat') return
+    const jid = message.chatId
 
     const text = message.body?.trim()
     if (!text) return
