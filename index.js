@@ -3,6 +3,7 @@ require('dotenv').config()
 const fs = require('fs')
 const path = './tokens-altar/altar-bot-2'
 const puppeteer = require('puppeteer')
+process.env.PUPPETEER_EXECUTABLE_PATH = require('puppeteer').executablePath()
 
 try {
   if (!fs.existsSync(path)) {
@@ -136,6 +137,7 @@ async function start() {
     headless: true,
     logQR: true,
     puppeteerOptions: {
+        browserWSEndpoint: undefined,
         executablePath,
         args: [
             '--no-sandbox',
