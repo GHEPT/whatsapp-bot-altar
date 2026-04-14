@@ -220,7 +220,7 @@ async function start() {
         const now = Date.now()
         const diff = now - lastActivityAt
 
-        if (process.uptime() > 120 && diff > 5 * 60 * 1000) {
+        if (process.uptime() > 300 && diff > 5 * 60 * 1000) {
             console.log('⚠️ BOT INATIVO - RESTARTANDO')
             process.exit(1)
         }
