@@ -113,7 +113,7 @@ ${extraMessage}`
 async function start() {
   
   const client = await wppconnect.create({
-    session: 'altar-bot',
+    session: 'altar-bot-2',
     autoClose: 0,
     headless: true,
     logQR: true,
