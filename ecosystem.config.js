@@ -1,21 +1,15 @@
 module.exports = {
   apps: [
     {
-      name: 'altar-bot',
-      script: './index.js',
-
-      autorestart: true,
-
-      max_restarts: 10,
-      min_uptime: 5000,
-
-      restart_delay: 5000,
-      exp_backoff_restart_delay: 100,
-
-      watch: false,
-
+      name: "altar-bot",
+      script: "./index.js",
+      cwd: "/home/bot/projects/whatsapp-bot-altar",
+      instances: 1,
+      exec_mode: "fork",
       env: {
-        NODE_ENV: 'production'
+        NODE_ENV: "production",
+        SESSION_NAME: "altar-bot-2",
+        TOKEN_FOLDER: "tokens-altar"
       }
     }
   ]
