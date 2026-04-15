@@ -215,16 +215,6 @@ async function start() {
 
     log('✅ Bot conectado')
 
-    setInterval(() => {
-        const now = Date.now()
-        const diff = now - lastActivityAt
-
-        if (process.uptime() > 300 && diff > 5 * 60 * 1000) {
-            console.log('⚠️ BOT INATIVO - RESTARTANDO')
-            console.log('🚨 exit bloqueado para estabilização')
-        }
-    }, 60 * 1000)
-
     setInterval(async () => {
         try {
             if (!clientGlobal) {
@@ -236,10 +226,10 @@ async function start() {
 
             console.log('💓 HEARTBEAT:', state)
 
-            const invalid = ['DISCONNECTED', 'CLOSE', 'UNPAIRED', 'UNPAIRED_IDLE']
+            const invalid = ['UNPAIRED', 'UNPAIRED_IDLE']
 
             if (invalid.includes(state)) {
-                console.log('❌ HEARTBEAT DETECTOU ESTADO RUIM - RESTARTANDO')
+                console.log('⚠️ estado crítico detectado no heartbeat')
                 console.log('🚨 exit bloqueado para estabilização')
             }
 
