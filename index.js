@@ -68,7 +68,7 @@ function botMessage(text) {
 async function sendMessage(to, text) {
     if (!clientGlobal) {
         console.log('❌ CLIENT NÃO DISPONÍVEL')
-        process.exit(1)
+        console.log('🚨 exit bloqueado para estabilização')
     }
 
     try {
@@ -76,7 +76,7 @@ async function sendMessage(to, text) {
     } catch (error) {
         console.log('❌ ERRO AO ENVIAR MENSAGEM - RESTARTANDO')
         console.error(error)
-        process.exit(1)
+        console.log('🚨 exit bloqueado para estabilização')
     }
 }
 
@@ -185,7 +185,7 @@ async function start() {
 
         if (invalidStates.includes(state)) {
             console.log('❌ ESTADO INVÁLIDO - RESTARTANDO')
-            process.exit(1)
+            console.log('🚨 exit bloqueado para estabilização')
         }
     })
 
@@ -206,7 +206,7 @@ async function start() {
 
             if (streamFailures >= 5) {
                 console.log('❌ STREAM INSTÁVEL - RESTARTANDO')
-                process.exit(1)
+                console.log('🚨 exit bloqueado para estabilização')
             }
         } else {
             streamFailures = 0
@@ -221,7 +221,7 @@ async function start() {
 
         if (process.uptime() > 300 && diff > 5 * 60 * 1000) {
             console.log('⚠️ BOT INATIVO - RESTARTANDO')
-            process.exit(1)
+            console.log('🚨 exit bloqueado para estabilização')
         }
     }, 60 * 1000)
 
@@ -229,7 +229,7 @@ async function start() {
         try {
             if (!clientGlobal) {
                 console.log('❌ CLIENT NULO - RESTARTANDO')
-                process.exit(1)
+                console.log('🚨 exit bloqueado para estabilização')
             }
 
             const state = await clientGlobal.getConnectionState()
@@ -240,13 +240,13 @@ async function start() {
 
             if (invalid.includes(state)) {
                 console.log('❌ HEARTBEAT DETECTOU ESTADO RUIM - RESTARTANDO')
-                process.exit(1)
+                console.log('🚨 exit bloqueado para estabilização')
             }
 
         } catch (err) {
             console.log('❌ ERRO NO HEARTBEAT - RESTARTANDO')
             console.error(err)
-            process.exit(1)
+            console.log('🚨 exit bloqueado para estabilização')
         }
     }, 2 * 60 * 1000) // a cada 2 minutos
 
