@@ -163,11 +163,8 @@ async function start() {
     const client = await wppconnect.create({
         session: config.SESSION_NAME,
         folderNameToken: config.TOKEN_FOLDER,
-        autoClose: 0,
-        headless: true,
-        logQR: true,
         puppeteerOptions: {
-            browserWSEndpoint: undefined,
+            userDataDir: `./tokens-altar/${config.SESSION_NAME}`,
             executablePath,
             args: [
                 '--no-sandbox',
