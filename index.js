@@ -13,7 +13,7 @@ const config = require('./src/config')
 const { loadProcessed, saveProcessed } = require('./processedStore')
 
 const fs = require('fs')
-const path = './tokens-altar/altar-bot-2'
+const path = `./${config.TOKEN_FOLDER}/${config.SESSION_NAME}`
 const puppeteer = require('puppeteer')
 process.env.PUPPETEER_EXECUTABLE_PATH = require('puppeteer').executablePath()
 const groupLocks = new Map()
@@ -175,7 +175,7 @@ async function start() {
         session: config.SESSION_NAME,
         folderNameToken: config.TOKEN_FOLDER,
         puppeteerOptions: {
-            userDataDir: `./tokens-altar/${config.SESSION_NAME}`,
+            userDataDir: `./${config.TOKEN_FOLDER}/${config.SESSION_NAME}`,
             executablePath,
             args: [
                 '--no-sandbox',
