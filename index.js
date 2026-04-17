@@ -11,6 +11,7 @@ process.on('unhandledRejection', (err) => {
 const config = require('./src/config')
 
 const { loadProcessed, saveProcessed } = require('./processedStore')
+const buildMessage = require('./src/templates/altarTemplate')
 
 const fs = require('fs')
 const path = `./${config.TOKEN_FOLDER}/${config.SESSION_NAME}`
@@ -106,57 +107,6 @@ function capitalizeName(text) {
             return word.charAt(0).toUpperCase() + word.slice(1)
         })
         .join(' ')
-}
-
-function buildMessage(group, extraMessage = '') {
-    const total = group.contributions.reduce((sum, c) => sum + c.amount, 0)
-
-    let list = ''
-
-    const sorted = [...group.contributions].sort((a, b) => {
-        const [dayA, monthA] = a.date.split('/').map(Number)
-        const [dayB, monthB] = b.date.split('/').map(Number)
-
-        const dateA = new Date(2024, monthA - 1, dayA)
-        const dateB = new Date(2024, monthB - 1, dayB)
-
-        return dateA - dateB
-    })
-
-    if (sorted.length === 0) {
-        list = '_Ainda não há contribuições_'
-    } else {
-        sorted.forEach((c, i) => {
-            list += `\`${i + 1}. ${c.date}, ${c.name}, R$ ${formatCurrency(c.amount)}\`\n`
-        })
-    }
-
-    let stepsText = ''
-
-    if (group.steps && group.steps.length > 0) {
-        group.steps.forEach((step, i) => {
-            const icon = step.done ? '☑' : '☐'
-            if (step.done) {
-                stepsText += `${icon} ~${step.label} - R$ ${formatCurrency(step.amount)}~\n`
-            } else {
-                stepsText += `${icon} ${step.label} - R$ ${formatCurrency(step.amount)}\n`
-            }
-        })
-    }
-
-    return `*========================*
-     *ALTAR & REFORMA*
-     *META | R$ ${formatCurrency(group.goal)}* 
-*========================*
-${stepsText ? stepsText + '\n' : ''}
-_No altar, entregamos. Na reforma, somos restaurados._
-
-Contribuições recebidas:
-*\`R$ ${formatCurrency(total)}\`* 💴
-
-${list}
----
-${extraMessage}`
 }
 
 let lastActivityAt = Date.now()
@@ -363,7 +313,7 @@ async function start() {
 
                     await sendMessage(
                         jid,
-                        botMessage(buildMessage(group, aiMessage))
+                        botMessage(buildMessage(group, aiMessage, formatCurrency))
                     )
 
                     console.log('🚀 MENSAGEM ENVIADA')
@@ -387,7 +337,7 @@ async function start() {
                     // 🔥 envia lista final
                     await sendMessage(
                         jid,
-                        botMessage(buildMessage(group))
+                        botMessage(buildMessage(group, formatCurrency))
                     )
 
                     return
@@ -454,7 +404,7 @@ async function start() {
 
                     await sendMessage(
                         jid,
-                        botMessage(buildMessage(group))
+                        botMessage(buildMessage(group, formatCurrency))
                     )
 
                     return
@@ -479,7 +429,7 @@ async function start() {
 
                     await sendMessage(
                         jid,
-                        botMessage(buildMessage(group, message))
+                        botMessage(buildMessage(group, message, formatCurrency))
                     )
 
                     return
@@ -524,7 +474,7 @@ async function start() {
 
                         await sendMessage(
                             jid,
-                            botMessage(buildMessage(group))
+                            botMessage(buildMessage(group, formatCurrency))
                         )
 
                         return
@@ -606,7 +556,7 @@ async function start() {
 
                         await sendMessage(
                             jid,
-                            botMessage(buildMessage(group))
+                            botMessage(buildMessage(group, formatCurrency))
                         )
 
                         return
@@ -665,7 +615,7 @@ async function start() {
 
                     await sendMessage(
                         jid,
-                        botMessage(buildMessage(group))
+                        botMessage(buildMessage(group, formatCurrency))
                     )
 
                     return
@@ -739,7 +689,7 @@ async function start() {
 
                     await sendMessage(
                         jid,
-                        botMessage(buildMessage(group))
+                        botMessage(buildMessage(group, formatCurrency))
                     )
 
                     return
@@ -825,7 +775,7 @@ async function start() {
 
                     await sendMessage(
                         jid,
-                        botMessage(buildMessage(group, aiMessage))
+                        botMessage(buildMessage(group, aiMessage, formatCurrency))
                     )
 
                     return
@@ -881,7 +831,7 @@ async function start() {
 
                     await sendMessage(
                         jid,
-                        botMessage(buildMessage(group, aiMessage))
+                        botMessage(buildMessage(group, aiMessage, formatCurrency))
                     )
 
                     return
