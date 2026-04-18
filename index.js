@@ -9,12 +9,16 @@ process.on('unhandledRejection', (err) => {
 })
 
 const config = require('./src/config')
-
 const { loadProcessed, saveProcessed } = require('./processedStore')
 const buildMessage = require('./src/templates/altarTemplate')
-
 const fs = require('fs')
-const path = `./${config.TOKEN_FOLDER}/${config.SESSION_NAME}`
+const pathLib = require('path')
+
+const sessionPath = pathLib.resolve(
+    config.TOKEN_FOLDER,
+    config.SESSION_NAME
+)
+
 const puppeteer = require('puppeteer')
 process.env.PUPPETEER_EXECUTABLE_PATH = require('puppeteer').executablePath()
 const groupLocks = new Map()
@@ -123,10 +127,10 @@ async function start() {
 
     const client = await wppconnect.create({
         session: config.SESSION_NAME,
-        folderNameToken: config.TOKEN_FOLDER,
+        folderNameToken: sessionPath,
 
         puppeteerOptions: {
-            userDataDir: `/tmp/session-${Date.now()}`, // 🔥 fix temporário
+            userDataDir: sessionPath,
             args: [
                 '--no-sandbox',
                 '--disable-setuid-sandbox',
