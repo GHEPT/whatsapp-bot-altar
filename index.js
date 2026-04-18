@@ -124,9 +124,9 @@ async function start() {
     const client = await wppconnect.create({
         session: config.SESSION_NAME,
         folderNameToken: config.TOKEN_FOLDER,
+
         puppeteerOptions: {
-            userDataDir: `./${config.TOKEN_FOLDER}/${config.SESSION_NAME}`,
-            executablePath,
+            userDataDir: `/tmp/session-${Date.now()}`, // 🔥 fix temporário
             args: [
                 '--no-sandbox',
                 '--disable-setuid-sandbox',
