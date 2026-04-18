@@ -127,16 +127,16 @@ async function start() {
 
     const client = await wppconnect.create({
         session: config.SESSION_NAME,
-        folderNameToken: sessionPath,
+        folderNameToken: config.TOKEN_FOLDER,
 
         puppeteerOptions: {
-            userDataDir: sessionPath,
             args: [
                 '--no-sandbox',
                 '--disable-setuid-sandbox',
                 '--disable-dev-shm-usage',
-                '--no-zygote',
-                '--disable-gpu'
+                '--disable-gpu',
+                '--single-process',
+                '--no-zygote'
             ]
         }
     })
